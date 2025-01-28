@@ -1,0 +1,1 @@
+basic matlab pipeline for creating voxelwise segmentations from subtomogram averaging data, such as that produced by RELION. Projects densities back into the tomograms to create a greyscale label atlas of any picked particles.
