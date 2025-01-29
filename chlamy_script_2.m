@@ -59,8 +59,7 @@ for i=1:numel(tomolist)
             
             for k=1:n
                 co = picks.coords(k,:)*srchead.pixA/4/1; %convert bin4 pixels to angstroms (need variable)
-                rot = deg2rad(picks.rots(k,:));
-                tmp = rec(j).atoms; %tmp(:,1:3)=tmp(:,1:3)/1;
+                rot = deg2rad(picks.rots(k,:)); tmp = rec(j).atoms;
                 
                 [mat,tform] = eul2rot(rot);
                 tmp(:,1:3) = transformPointsForward(affine3d(tform),tmp(:,1:3))+co; %rotate and translate
