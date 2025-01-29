@@ -1,3 +1,9 @@
+% prototype for retroconversion of picked particles (subtomo) to segmentations and model volumes
+% hacky mess for I/O right now, put everything in a working folder
+% have a /tomos folder for inputs(just for size/resolution really), /densities folder for particle maps
+% and a folder for picked .star files. auto-fetches identical X.mrc densities from X.star selections.
+% outputs atlas files into a /segmentations folder, along with a record of which labels each output includes
+
 %% iter 2 for chlamy picked particles to segmentation script
 
 % needed variables:
@@ -39,6 +45,7 @@ outfolder = append(workingfolder,'\segmentations\');
 mkdir(outfolder)
 for i=1:numel(tomolist)
     [~,tomobase,~] = fileparts(tomolist{i});
+    tomobase = pad(tomobase,4,'left','0');
     [~,srchead] = ReadMRC(tomolist{i}); srcsize = [srchead.nx,srchead.ny,srchead.nz];
     
     for j=1:numel(rec)
