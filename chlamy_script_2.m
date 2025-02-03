@@ -117,7 +117,7 @@ star = table(dat(:,1:3),dat(:,4:6),tm,'VariableNames',{'coords','rots','tomo'});
 %if size(q,1)<1, error('looks like this tomogram has no picked particles'), end
 end
 
-function [mat,tform] = eul2rot(e) %currently hardcoded zyz convention - relion standard
+function [mat,tform] = eul2rot(e) %currently hardcoded zyz convention - relion standard, EMAN2 is zxz
 r1 = axrot2mat([0,0,1],e(1));
 r2 = axrot2mat([0,1,0],e(2));
 r3 = axrot2mat([0,0,1],e(3));
