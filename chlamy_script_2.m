@@ -43,6 +43,7 @@ clear list2
 %% loop over tomos and generate segmentations
 outfolder = append(workingfolder,'\segmentations\');
 mkdir(outfolder)
+pickrecord = zeros(numel(tomolist),numel(rec),'single');
 for i=1:numel(tomolist)
     [~,tomobase,~] = fileparts(tomolist{i});
     tomobase = pad(tomobase,4,'left','0');
