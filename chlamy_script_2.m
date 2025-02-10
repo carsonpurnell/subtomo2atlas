@@ -41,6 +41,7 @@ end
 clear list2
 
 %% loop over tomos and generate segmentations
+clear vol split picks pickrecord idx atlas tmp t
 outfolder = append(workingfolder,'\segmentations\');
 mkdir(outfolder)
 pickrecord = zeros(numel(tomolist),numel(rec),'single');
