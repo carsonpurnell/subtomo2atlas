@@ -27,7 +27,7 @@ for i=1:numel(starfiles)
     
     densmrc = fullfile(workingfolder,append('densities\',base,'.mrc'));
     [~,dat] = densityprep(densmrc);
-    
+    % density might need work, the trim process might be shifting away from 0-centering
     rec(i).name = base; rec(i).dat = star; rec(i).atoms = dat;
 end
 clear star starfiles dat list
@@ -87,7 +87,7 @@ function [dtrim,dat] = densityprep(mrc)
 dvol(dvol<mean(dvol,'all')) = 0;
 trimr = any(dvol,[2 3]); trimc = any(dvol,[1 3]); triml = any(dvol,[1 2]); 
 dtrim = single(dvol(trimr,trimc,triml)); % zeros trimmed to shrink volume
-
+dtrim = dvol;
 dat = zeros(numel(dtrim),4,'single');
 [xx,yy,zz] = ind2sub(size(dtrim),1:size(dat,1));
 dat = [xx',yy',zz',dtrim(:)];
