@@ -42,6 +42,8 @@ clear list2
 
 %% loop over tomos and generate segmentations
 clear vol split picks pickrecord idx atlas tmp t
+%tmp = randn(3,1000); tmp = 25*(tmp./vecnorm(tmp))'; tmp(:,4) = 10;
+%rec(3).atoms = tmp;
 outfolder = append(workingfolder,'\segmentations\');
 mkdir(outfolder)
 pickrecord = zeros(numel(tomolist),numel(rec),'single');
@@ -60,7 +62,7 @@ for i=1:numel(tomolist)
             split.(rec(j).name) = zeros(n*m,4,'single');
             
             for k=1:n
-                co = picks.coords(k,:)*srchead.pixA/4/1; %convert bin4 pixels to angstroms (need variable)
+                co = (picks.coords(k,:)+0)*srchead.pixA/4/1; %convert bin4 pixels to angstroms (need variable)
                 rot = deg2rad(picks.rots(k,:)); tmp = rec(j).atoms;
                 
                 [mat,tform] = eul2rot(rot);
@@ -87,7 +89,7 @@ function [dtrim,dat] = densityprep(mrc)
 dvol(dvol<mean(dvol,'all')) = 0;
 trimr = any(dvol,[2 3]); trimc = any(dvol,[1 3]); triml = any(dvol,[1 2]); 
 dtrim = single(dvol(trimr,trimc,triml)); % zeros trimmed to shrink volume
-dtrim = dvol;
+%dtrim = dvol;
 dat = zeros(numel(dtrim),4,'single');
 [xx,yy,zz] = ind2sub(size(dtrim),1:size(dat,1));
 dat = [xx',yy',zz',dtrim(:)];
@@ -95,7 +97,7 @@ dat = [xx',yy',zz',dtrim(:)];
 ix = dat(:,4)>(mean(dat(:,4))/2); dat = dat(ix,:); %coordinate array w/ associated density
 n = size(dat,1); ix = randperm(n);
 ix = ix(1:round(n/10*dhead.pixA));dat = dat(ix,:); % randomly keep pix/10 of pts for faster run
-cen = size(dtrim)/2; dat(:,1:3) = (dat(:,1:3)-cen)*dhead.pixA;
+cen = size(dtrim)/2-0.5; dat(:,1:3) = (dat(:,1:3)-cen)*dhead.pixA;
 end
 
 function star = readstar(starfile)
